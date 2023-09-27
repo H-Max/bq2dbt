@@ -8,11 +8,19 @@ This script is used to generate the explicit SQL file (explicit = don't use sele
   - with primary key if any
   - with correct handling of the ARRAY/STRUCT types
 
-Ouput is generated in the `./output` folder from where you run the script.
+Ouput is generated in the `./output/{{project}}/{dataset}` folder from where you run the script.
 
-# Can't run it ?
+# Install the script localy
 
-Make sure you `chmod +x` the script before you run it, and that you have gcloud default login correctly setup before running the script.
+Just use pip:
+
+```
+# Latest version
+pip install git+https://github.com/H-Max/bq2dbt.git
+
+# Pinned tag/version
+pip install git+https://github.com/H-Max/bq2dbt.git@v0.1.0
+```
 
 # How to run it ?
 
@@ -20,8 +28,12 @@ Just run the script with the complete table path in argument.
 
 Example:
 ```shell
- bq2dbt.py myproject.mydataset.mytable
+ bq2dbt myproject.mydataset.mytable
 ```
+
+# Options
+
+There is a single option (for now), to output the data types in lowercase in the YAML file. Just use `-l` or `--lower` to enforce this behavior.
 
 # TODO
 
