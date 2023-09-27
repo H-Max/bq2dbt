@@ -1,0 +1,18 @@
+# Python env and IDE
+/venv/
+.idea
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local folder for this and that
+_local
+
+# Output directory of the package itself
+**/output
+
+# Distribution / packaging
+build/
+*.egg-info/
