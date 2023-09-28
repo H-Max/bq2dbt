@@ -4,11 +4,18 @@ This script is used to generate the explicit SQL file (explicit = don't use sele
 
 - contract enforcement
   - with correct column types
+  - with description import
   - with correct not_null contraints
   - with primary key if any
   - with correct handling of the ARRAY/STRUCT types
 
 Ouput is generated in the `./output/{{project}}/{dataset}` folder from where you run the script.
+
+## Disclaimer
+
+I know this looks like something the codegen dbt package could do, but it was faster for me to develop this rather than contribute both to the BigQuery adapter in dbt and the codegen package (this does not mean that I won't).
+
+We used this script to convert an existing project with missing contracts and with `SELECT *` statements to something for robust and implicit, and with existing tables in BigQuery. This is the main purpose of this.
 
 # Install the script localy
 
