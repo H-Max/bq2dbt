@@ -38,9 +38,15 @@ Example:
  bq2dbt myproject.mydataset.mytable
 ```
 
-# Options
+# CLI arguments
 
-There is a single option (for now), to output the data types in lowercase in the YAML file. Just use `-l` or `--lower` to enforce this behavior.
+| Option          | Description                                      |
+|-----------------|--------------------------------------------------|
+| `-l`, `--lower` | Output type names as lowercase in YAML file      |
+| `--snake`       | Convert field names to snake_case (SQL and YAML) |
+| `--prefix`      | Prefix to add to columns names (default: None)   |
+| `--suffix`      | Suffix to add to column names (default: None)    |
+
 
 # TODO
 
