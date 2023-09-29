@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='bq2dbt', version='0.1.0',
+setup(name='bq2dbt', version='0.1.1',
       description='Read a table/view from BigQuery and generates model definition YAML file'
                   'and basic select query with explicit columns list',
       url='https://github.com/H-Max/bq2dbt',
