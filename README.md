@@ -45,6 +45,7 @@ There is a single option (for now), to output the data types in lowercase in the
 # TODO
 
 - Error handling
+- Unit testing
 - Merging with existing yaml definition files
 - Generate the files for a complete dataset rather than a single table
 - Option to output to stdout
