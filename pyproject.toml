@@ -1,0 +1,25 @@
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm>=8",
+    "wheel",
+]
+
+[project]
+name = "bq2dbt"
+authors = [
+    {name = "Henri-Maxime Ducoulombier", email = "hmducoulombier@gmail.com"}
+]
+description = "Read a table/view from BigQuery and generates model definition YAML file and basic select query with explicit columns list"
+requires-python = ">=3.9"
+license = {text = "GNU General Public Licence v3"}
+dependencies = [
+    "PyYAML==6.0.1",
+    "google-cloud-bigquery==3.11.4"
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["bq2dbt"]
+
+[tool.setuptools_scm]

@@ -45,7 +45,8 @@ def bq2dbt():
     parser.add_argument("--snake", action="store_true", help="Convert field names to snake_case")
     parser.add_argument("--prefix", help="Prefix to add to columns names", default=None)
     parser.add_argument("--suffix", help="Suffix to add to column names", default=None)
-    parser.add_argument("--output", help="Output folder of scripts. By default 'target/bq2dbt'.", default='target/bq2dbt')
+    parser.add_argument("--output", help="Output folder of scripts. By default 'target/bq2dbt'",
+                        default='target/bq2dbt')
     args = parser.parse_args()
 
     project_id, dataset_id, table_name = args.table_id.split(".")
