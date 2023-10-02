@@ -5,11 +5,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 """
 
-import yaml
 import argparse
-import os
 import logging
+import os
 import re
+import yaml
 
 from google.cloud import bigquery
 
@@ -36,19 +36,25 @@ def convert_to_snake_case(input_string: str) -> str:
 
 
 def bq2dbt():
+    """
+    Main function. Parse arguments and do the job
+    """
     parser = argparse.ArgumentParser(description="Generate YAML and SQL output for a BigQuery table.")
     parser.add_argument("table_id", help="Complete BigQuery table ID (project.dataset.table)")
     parser.add_argument("-l", "--lower", action="store_true", help="Lowercase type names in YAML file")
     parser.add_argument("--snake", action="store_true", help="Convert field names to snake_case")
     parser.add_argument("--prefix", help="Prefix to add to columns names", default=None)
     parser.add_argument("--suffix", help="Suffix to add to column names", default=None)
+    parser.add_argument("--output", help="Output folder of scripts. By default 'target/bq2dbt'.", default='target/bq2dbt')
     args = parser.parse_args()
 
     project_id, dataset_id, table_name = args.table_id.split(".")
     prefix = args.prefix
     suffix = args.suffix
 
-    logger.info(f"Starting generation of YAML and SQL for table {args.table_id}...")
+    output_folder = args.output
+
+    logger.info("Starting generation of YAML and SQL for table %s...", args.table_id)
 
     client = bigquery.Client(project=project_id)
 
@@ -146,15 +152,15 @@ def bq2dbt():
         `{project_id}.{dataset_id}.{table_name}`  -- Don't leave this in your DBT Statement
     """
 
-    output_path = f"./output/{project_id}/{dataset_id}"
+    output_path = f"./{output_folder}/{project_id}/{dataset_id}"
     os.makedirs(output_path, exist_ok=True)
 
-    logger.info(f"Generating YAML and SQL files to path: {output_path}")
+    logger.info("Generating YAML and SQL files to path: %s", output_path)
 
-    with open(f"{output_path}/{table_name}.yaml", "w") as yaml_file:
+    with open(f"{output_path}/{table_name}.yaml", "w", encoding="utf-8") as yaml_file:
         yaml_file.write(yaml_output)
 
-    with open(f"{output_path}/{table_name}.sql", "w") as sql_file:
+    with open(f"{output_path}/{table_name}.sql", "w", encoding="utf-8") as sql_file:
         sql_file.write(sql_output.strip())
 
     logger.info("Operation complete")

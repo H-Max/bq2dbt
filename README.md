@@ -9,7 +9,7 @@ This script is used to generate the explicit SQL file (explicit = don't use sele
   - with primary key if any
   - with correct handling of the ARRAY/STRUCT types
 
-Ouput is generated in the `./output/{{project}}/{dataset}` folder from where you run the script.
+Ouput is generated in the `./target/bq2dbt/{{project}}/{dataset}` folder from where you run the script. You can change it with option `--output`.
 
 ## Disclaimer
 
@@ -40,13 +40,13 @@ Example:
 
 # CLI arguments
 
-| Option          | Description                                      |
-|-----------------|--------------------------------------------------|
-| `-l`, `--lower` | Output type names as lowercase in YAML file      |
-| `--snake`       | Convert field names to snake_case (SQL and YAML) |
-| `--prefix`      | Prefix to add to columns names (default: None)   |
-| `--suffix`      | Suffix to add to column names (default: None)    |
-
+| Option          | Description                                              |
+|-----------------|----------------------------------------------------------|
+| `-l`, `--lower` | Output type names as lowercase in YAML file              |
+| `--snake`       | Convert field names to snake_case (SQL and YAML)         |
+| `--prefix`      | Prefix to add to columns names (default: None)           |
+| `--suffix`      | Suffix to add to column names (default: None)            |
+| `--output`      | Destination folder for scripts. By default target/bq2dbt |
 
 # TODO
 
