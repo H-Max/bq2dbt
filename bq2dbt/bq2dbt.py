@@ -125,7 +125,7 @@ def bq2dbt():
         field_info = {
             "name": destination,
             "data_type": data_type.lower() if args.lower else data_type,
-            "description": field.description
+            "description": field.description or ""
         }
         if field.is_nullable == 'NO':
             field_info = {**field_info, **{
@@ -165,7 +165,3 @@ def bq2dbt():
         sql_file.write(sql_output.strip())
 
     logger.info("Operation complete")
-
-
-if __name__ == '__main__':
-    bq2dbt()

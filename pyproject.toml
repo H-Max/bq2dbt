@@ -19,6 +19,9 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[project.scripts]  # Optional
+bq2dbt = "bq2dbt:bq2dbt"
+
 [tool.setuptools]
 packages = ["bq2dbt"]
 
