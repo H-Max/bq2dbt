@@ -36,28 +36,36 @@ pip install git+https://github.com/H-Max/bq2dbt.git@v0.1.0
 
 # How to run it ?
 
-Just run the script with the complete table path in argument.
+Just run the script with complete path of table or dataset.
+
+When using a dataset only, it will generate SQL and YAML files for all found tables in the dataset.
 
 Example:
 ```shell
- bq2dbt myproject.mydataset.mytable
+# Single table
+bq2dbt myproject.mydataset.mytable
+ 
+# Complete dataset
+bq2dbt myproject.mydataset
+ 
 ```
 
 # CLI arguments
 
-| Option          | Description                                              |
-|-----------------|----------------------------------------------------------|
-| `-l`, `--lower` | Output type names as lowercase in YAML file              |
-| `--snake`       | Convert field names to snake_case (SQL and YAML)         |
-| `--prefix`      | Prefix to add to columns names (default: None)           |
-| `--suffix`      | Suffix to add to column names (default: None)            |
-| `--output`      | Destination folder for scripts. By default target/bq2dbt |
+| Option                | Description                                                               |
+|-----------------------|---------------------------------------------------------------------------|
+| `-l`, `--lower`       | Output type names as lowercase in YAML file                               |
+| `--snake`             | Convert field names to snake_case (SQL and YAML)                          |
+| `--prefix`            | Prefix to add to columns names (default: None)                            |
+| `--suffix`            | Suffix to add to column names (default: None)                             |
+| `--output`            | Destination folder for scripts. By default target/bq2dbt                  |
+| `--empty_description` | Add empty description property to YAML file if field description is empty |
 
 # TODO
 
-- Error handling
-- Unit testing
-- Merging with existing yaml definition files
-- Generate the files for a complete dataset rather than a single table
-- Option to output to stdout
-  - With the option to select SQL or YAML file only
+- [ ] Error handling
+- [ ] Unit testing
+- [ ] Merging with existing yaml definition files
+- [x] Generate the files for a complete dataset rather than a single table
+- [ ] Option to output to stdout
+  - [ ] With the option to select SQL or YAML file only
