@@ -17,9 +17,14 @@ I know this looks like something the codegen dbt package could do, but it was fa
 
 We used this script to convert an existing project with missing contracts and with `SELECT *` statements to something for robust and implicit, and with existing tables in BigQuery. This is the main purpose of this.
 
-# Install the script localy
+# Instal from source
 
-Just use pip:
+
+```
+pip install .
+```
+
+# Install from Github
 
 ```
 # Latest version

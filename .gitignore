@@ -11,8 +11,7 @@ __pycache__/
 _local
 
 # Output directory of the package itself
-**/output
-**/target/bq2dbt
+/target
 
 # Distribution / packaging
 build/

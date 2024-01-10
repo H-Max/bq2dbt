@@ -128,11 +128,13 @@ def bq2dbt():
             "description": field.description or ""
         }
         if field.is_nullable == 'NO':
-            field_info = {**field_info, **{
-                "constraints": [
-                    {"type": "not_null"}
-                ]
-            }}
+            # BigQuery says array cannot be null, but they can and they don't support not_null constraint
+            if data_type not in ['ARRAY']:
+                field_info = {**field_info, **{
+                    "constraints": [
+                        {"type": "not_null"}
+                    ]
+                }}
 
         yaml_data["models"][0]["columns"].append(field_info)
         if '.' not in field.field_path:
