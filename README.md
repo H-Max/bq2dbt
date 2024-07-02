@@ -55,14 +55,14 @@ bq2dbt myproject.mydataset
 
 # CLI arguments
 
-| Option                | Description                                                               |
-|-----------------------|---------------------------------------------------------------------------|
-| `-l`, `--lower`       | Output type names as lowercase in YAML file                               |
-| `--snake`             | Convert field names to snake_case (SQL and YAML)                          |
-| `--prefix`            | Prefix to add to columns names (default: None)                            |
-| `--suffix`            | Suffix to add to column names (default: None)                             |
-| `--output`            | Destination folder for scripts. By default target/bq2dbt                  |
-| `--empty_description` | Add empty description property to YAML file if field description is empty |
+| Option                | Description                                                                             |
+|-----------------------|-----------------------------------------------------------------------------------------|
+| `-l`, `--lower`       | Output type names as lowercase in YAML file                                             |
+| `--snake`             | Convert field names to snake_case                                                       |
+| `--prefix`            | Prefix to add to columns names (default: None)                                          |
+| `--suffix`            | Suffix to add to column names (default: None)                                           |
+| `--output`            | Destination folder for scripts. (default: target/bq2dbt)                                |
+| `--empty_description` | Add empty description property to YAML file if field description is empty (placeholder) |
 
 # TODO
 
@@ -70,5 +70,8 @@ bq2dbt myproject.mydataset
 - [ ] Unit testing
 - [ ] Merging with existing yaml definition files
 - [x] Generate the files for a complete dataset rather than a single table
+- [x] Support for clustering
+- [x] Support for time partitioning
+- [ ] Support for range paritioning
 - [ ] Option to output to stdout
   - [ ] With the option to select SQL or YAML file only

@@ -1,0 +1,16 @@
+[MAIN]
+ignore=test
+jobs=0
+fail-under=8.0
+
+[MESSAGES CONTROL]
+disable=
+    missing-docstring,
+    too-few-public-methods,
+    import-error,
+
+output-format=colorized
+score=yes
+
+[FORMAT]
+max-line-length=120
