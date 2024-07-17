@@ -11,7 +11,7 @@ __pycache__/
 _local
 
 # Output directory of the package itself
-/target
+target/
 
 # Distribution / packaging
 build/

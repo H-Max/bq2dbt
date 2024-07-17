@@ -63,6 +63,8 @@ bq2dbt myproject.mydataset
 | `--suffix`            | Suffix to add to column names (default: None)                                           |
 | `--output`            | Destination folder for scripts. (default: target/bq2dbt)                                |
 | `--empty_description` | Add empty description property to YAML file if field description is empty (placeholder) |
+| `--tabs`              | Use tabs instead of 4 spaces in SQL file indentation                                    |
+| `--leading_comma`     | Put comma at the start of line in SQL file column list instead of end of line           |
 
 # TODO
 

@@ -14,6 +14,7 @@ import math
 import yaml
 
 from google.cloud import bigquery
+from unidecode import unidecode
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,20 +23,29 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 case_convert_regex = re.compile(r'(?<!^)(?=[A-Z])')
-SQL_INDENTATION = "\t"
-
 
 def convert_to_snake_case(input_string: str) -> str:
-    """
-    Converts a string from CamelCase to snake_case.
+    # Convert all non letter or numbers to "_"
+    output_string = re.sub(r'[^a-zA-Z0-9]', '_', input_string)
+    # Convert all accentuated characters to non-accentuated version
+    output_string = unidecode(output_string)
+    # Split on _ to have an array of words and remove empty strings
+    words = [_ for _ in output_string.split('_') if _]
 
-    Args:
-        input_string (str): The CamelCase string to be converted.
+    # For each word in the array
+    output_array = []
+    for word in words:
+        new_word = ''
+        previous_char: str = ''
+        for char in word:
+            # If char is uppercase and previous one is lowercase, add a _
+            if char.isupper() and previous_char and previous_char.islower():
+                new_word += '_'
+            new_word += char.lower()
+            previous_char = char
+        output_array.append(new_word)
 
-    Returns:
-        str: The string converted to snake_case.
-    """
-    return case_convert_regex.sub('_', input_string).lower()
+    return '_'.join(output_array)
 
 
 def parse_command_line():
@@ -47,6 +57,8 @@ def parse_command_line():
                         help="Include empty description property in YAML file")
     parser.add_argument("--prefix", help="Prefix to add to columns names", default=None)
     parser.add_argument("--suffix", help="Suffix to add to column names", default=None)
+    parser.add_argument("--leading_comma", help="Add comma at the start if line in SQL columns ouput", action="store_true")
+    parser.add_argument("--tabs", help="Indent SQL with tabs instead of spaces", action="store_true")
     parser.add_argument("--output", help="Output folder of scripts. By default 'target/bq2dbt'",
                         default='target/bq2dbt')
     return parser.parse_args()
@@ -83,6 +95,9 @@ def bq2dbt():
     prefix = args.prefix
     suffix = args.suffix
     empty_description = args.empty_description
+    leading_comma = args.leading_comma
+
+    sql_indentation = '\t' if args.tabs else '    '
 
     output_folder = args.output
 
@@ -194,10 +209,16 @@ def bq2dbt():
         logger.info("Require partition filter : %s", table_require_partition_filter)
         if table_time_partitioning:
             yaml_data['models'][0]['config']['partition_by'] = {
-                "field": table_time_partitioning.field,
-                "granularity": table_time_partitioning.type_,
-                "data_type": field_types[table_time_partitioning.field]
+                "granularity": table_time_partitioning.type_
             }
+
+            if table_time_partitioning.field:
+                yaml_data['models'][0]['config']['partition_by'].update(
+                    {
+                        "field": table_time_partitioning.field,
+                        "data_type": field_types[table_time_partitioning.field]
+                    }
+                )
 
             if table_require_partition_filter:
                 yaml_data['models'][0]['config']['require_partition_filter'] = True
@@ -214,9 +235,10 @@ def bq2dbt():
         yaml_output = yaml.dump(yaml_data, default_flow_style=False, sort_keys=False)
 
         # Generate the SQL output
-        sql_columns_statement = f"\n{SQL_INDENTATION}, ".join(sql_columns)
-        sql_from_statement = f"\n{SQL_INDENTATION}`{project_id}.{dataset_id}.{table_id}`"
-        sql_output = (f"SELECT\n{SQL_INDENTATION}{sql_columns_statement}\nFROM{sql_from_statement}"
+        sql_columns_separator = f'\n{sql_indentation}, ' if leading_comma else f',\n{sql_indentation}'
+        sql_columns_statement = sql_columns_separator.join(sql_columns)
+        sql_from_statement = f"\n{sql_indentation}`{project_id}.{dataset_id}.{table_id}`"
+        sql_output = (f"SELECT\n{sql_indentation}{sql_columns_statement}\nFROM{sql_from_statement}"
                       f"  -- Replace this with ref() or source() macro\n")
 
         output_path = f"./{output_folder}/{project_id}/{dataset_id}"
